@@ -12,7 +12,7 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 |             |        |
 | ----------- | ------ |
-| Nom         | _FILL_ |
+| Nom         | Platinum |
 | Identifiant | _FILL_ |
 
 <br>
@@ -24,6 +24,6 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 | Role                      | Membre |
 | ------------------------- | ------ |
-| Backend engineer          | _FILL_ |
-| Frontend engineer         | _FILL_ |
+| Backend engineer          | Théo Colin |
+| Frontend engineer         | Valentin Vougeot |
 | Site reliability engineer | _FILL_ |
