@@ -12,7 +12,7 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 |             |        |
 | ----------- | ------ |
-| Nom         | _FILL_ |
+| Nom         | 2MI    |
 | Identifiant | _FILL_ |
 
 <br>
@@ -22,8 +22,8 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 > :warning: Veuillez remplir la section suivante avec les membres de
 > votre équipe.
 
-| Role                      | Membre |
-| ------------------------- | ------ |
-| Backend engineer          | _FILL_ |
-| Frontend engineer         | _FILL_ |
-| Site reliability engineer | _FILL_ |
+| Role                      | Membre            |
+| ------------------------- | ----------------- |
+| Backend engineer          | IMANE HACEN       |
+| Frontend engineer         | MOHAMED KHARCHOUF |
+| Site reliability engineer | MOUAD AGUIRAR     |
