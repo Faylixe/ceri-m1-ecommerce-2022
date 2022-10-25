@@ -1,0 +1,17 @@
+.footerbas{
+    background-color:#191919;
+    border: 1px solid black;
+    width: 100%;
+    height: 90px;
+    position: absolute;
+}
+.footerhaut{
+    background-color:#242424;
+    border: 1px solid black;
+     width: 100%;
+     height: 65px;
+}
+.blanc{
+    color: #fff;
+}
+
