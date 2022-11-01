@@ -21,10 +21,16 @@ export class BodyComponent implements OnInit {
   }
 
   afficheListeAlbums(){
+    console.log("test fonction afficheListeAlb");
     this.liste.getEverything().subscribe(
 			(data : any) => {
-				this.listeAlb=JSON.parse(JSON.stringify(data));
-				console.log("liste albums = "+ this.listeAlb);
+        console.log("dans data")
+				//this.listeAlb=JSON.parse(JSON.stringify(data));
+        this.listeAlb=data;
+        console.log("test"+this.listeAlb.Item);
+        
+       // console.log("liste "+ this.liste)
+			//	console.log("liste albums = "+ this.listeAlb);
 			});
 			(error : any) => {
 				console.log("une erreur c'est produite");

@@ -10,6 +10,8 @@ export class ListeAlbumsService {
   constructor(private http :HttpClient) { }
 
   getEverything() : Observable<any>{
-	  return this.http.get('http://localhost:4200/getEverything',{withCredentials : true});
+    console.log("test service");
+	  return this.http.get('http://localhost:8000',{withCredentials : true});
+    
   }
 }

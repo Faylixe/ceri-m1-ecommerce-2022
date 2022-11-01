@@ -1,7 +1,10 @@
 from typing import Union
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 import sqlite3
+
 
 
 
@@ -15,6 +18,8 @@ for row in cursorDatabase:
     nbAlbums+=row[0]
 
 def getEverything():
+    
+    print("getEverything test serveur")
     AllItems=[]
     connectionDatabase = sqlite3.connect('vinyles.db', check_same_thread=False)
     cursorDatabase = connectionDatabase.cursor()
@@ -56,6 +61,20 @@ def getMusicsByArtist(nomArtiste, nomAlbum):
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:4200",
+    "localhost:4200"
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+) 
 
 @app.get("/")
 def read_root():
