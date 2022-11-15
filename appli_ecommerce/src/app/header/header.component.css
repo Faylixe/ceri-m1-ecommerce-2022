@@ -1,3 +1,260 @@
 .imgdisque{
     border: 5px solid #191919;
 }
+
+.bandeau{
+    background-color:#e3d6d5;
+    width: auto;
+    height: 40px;
+
+}
+
+h2{
+    font-size: medium;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.menu{
+    width: auto;
+    height: 60px;
+    background-color:#8e6263;
+    
+    
+    
+}
+
+
+
+
+button{
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-top: 6px;
+  height: 100%;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+button:hover{
+  background-color:#c8915f;
+}
+
+
+
+
+
+
+
+
+
+
+
+.gif {
+    position: absolute;
+    width: auto;
+   
+    top: 2%;
+    -webkit-animation: fadeslideUp 12s infinite; /* Chrome, Opera 15+, Safari 5+ */
+    -moz-animation: fadeslideUp 12s infinite; /* Fx 5+ */
+    -o-animation: fadeslideUp 12s infinite; /* Opera 12+ */
+    animation: fadeslideUp 12s infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+  }
+  
+ 
+  
+  #g2 {
+      animation-delay: -9s;
+      -webkit-animation-delay: -9s;
+  }
+  
+  #g3 {
+      animation-delay: -6s;
+      -webkit-animation-delay: -6s;
+  }
+  
+  #g4 {
+      animation-delay: -3s;
+      -webkit-animation-delay: -3s;
+  }
+  
+  @-webkit-keyframes fadeslideUp {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateY(-40%);
+      }
+      10% {
+        opacity: 1;
+        -webkit-transform: translateY(-50%);
+      }
+      20% {
+        opacity: 1;
+        -webkit-transform: translateY(-50%);
+      }
+      25% {
+        opacity: 0;
+        -webkit-transform: translateY(-60%);
+      }
+      100% {
+        opacity: 0;
+        -webkit-transform: translateY(-60%);
+      }
+  }
+  
+  @-moz-keyframes fadeslideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(-40%);
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+      25% {
+        opacity: 0;
+        transform: translateY(-60%);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-60%);
+      }
+  }
+  
+  @-o-keyframes fadeslideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(-40%);
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(-50%);
+      }
+      25% {
+        opacity: 0;
+        transform: translateY(-60%);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-60%);
+      }
+  }
+  
+  @keyframes fadeslideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(-40%); 
+        -ms-transform: translateY(-40%);
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(-50%); 
+        -ms-transform: translateY(-50%);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(-50%); 
+        -ms-transform: translateY(-50%);
+      }
+      25% {
+        opacity: 0;
+        transform: translateY(-60%);
+        -ms-transform: translateY(-60%); 
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-60%);
+        -ms-transform: translateY(-60%); 
+      }
+  }
+
+
+
+
+
+  
+  .drop {
+    text-decoration: none;
+    color: #000000;
+  }
+  
+  .drop:hover {
+    color: #222222
+  }
+  
+  /* Dropdown */
+  
+  .dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .dd-button {
+    display: inline-block;
+    padding: 1px 30px 10px 20px;
+    background-color: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .dd-button:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+  }
+  
+  
+  .dd-input {
+    display: none;
+  }
+  
+  .dd-menu {
+    position: absolute;
+    top: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0;
+    margin: 2px 0 0 0;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    list-style-type: none;
+  }
+  
+  .dd-input + .dd-menu {
+    display: none;
+  } 
+  
+  .dd-input:checked + .dd-menu {
+    display: block;
+  } 
+  
+  .dd-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  
+  .dd-menu li a {
+    display: block;
+    margin: -10px -20px;
+    padding: 10px 20px;
+  }
+  
+  .dd-menu li.divider{
+    padding: 0;
+    border-bottom: 1px solid #cccccc;
+  }

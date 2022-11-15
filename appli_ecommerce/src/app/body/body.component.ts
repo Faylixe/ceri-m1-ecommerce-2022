@@ -28,6 +28,7 @@ export class BodyComponent implements OnInit {
 				//this.listeAlb=JSON.parse(JSON.stringify(data));
         this.listeAlb=data;
         console.log("test"+this.listeAlb.Item);
+        console.log("test2 : "+this.listeAlb.Item[0])
         
        // console.log("liste "+ this.liste)
 			//	console.log("liste albums = "+ this.listeAlb);
