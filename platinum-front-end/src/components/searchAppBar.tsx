@@ -168,7 +168,28 @@ export default function SearchAppBar() {
                     >
                         <MenuIcon />
                     </IconButton>
+                    <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                        Platinum Vinyls
+                    </Typography>
                     <Box sx={{ flexGrow: 1 }} />
+                    <Typography
+                        variant="h6"
+                        sx={{ marginLeft: "24px" }}
+                        onClick={() => {
+                            alert('You clicked the title!')
+                        }}
+                    >
+                        Top 10
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        sx={{ marginLeft: "24px" }}
+                        onClick={() => {
+                            alert('You clicked the title!')
+                        }}
+                    >
+                        Artistes
+                    </Typography>
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
