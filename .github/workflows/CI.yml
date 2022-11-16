@@ -37,7 +37,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Build image and push to GitHub Container Registry
+      - name: Build front-end image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -47,5 +47,18 @@ jobs:
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
-      - name: Image digest
+      - name: Front-end digest
+        run: echo ${{ steps.docker_build.outputs.digest }}    
+
+      - name: Build back-end image and push to GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./backend/
+          # Note: tags has to be all lower-case
+          tags: ghcr.io/colintheo/back-end:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}    
+
+      - name: Back-end digest
         run: echo ${{ steps.docker_build.outputs.digest }}
