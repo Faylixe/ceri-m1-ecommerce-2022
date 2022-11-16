@@ -1,2 +1,2 @@
 docker run NOMIMAGE ....
-ENTRYPOINT = ['uvicorn','main:app']
+ENTRYPOINT = ['uvicorn','api:app']
