@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build/push:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -62,3 +62,17 @@ jobs:
 
       - name: Back-end digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  deploy:
+    needs: build/push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+      - run: terraform init
+      - run: terraform apply -auto-approve -input=False 
