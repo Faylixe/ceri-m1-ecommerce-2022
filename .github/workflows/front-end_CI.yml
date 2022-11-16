@@ -43,7 +43,7 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./platinum-front-end/
           # Note: tags has to be all lower-case
-          tags: ghcr.io/ColinTheo/front-end:latest
+          tags: ghcr.io/colintheo/front-end:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
