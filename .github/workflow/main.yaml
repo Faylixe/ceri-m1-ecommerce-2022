@@ -19,6 +19,9 @@ jobs:
       - run : docker build -t Frontend .
   deploy:
     runs-on: ubuntu-latest
+    needs:
+      -Front
+      -Back
     defaults:
       run:
         working-directory: terraform
