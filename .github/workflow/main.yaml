@@ -9,7 +9,7 @@ jobs:
   Front:
     steps:
       - use checkout
-      - run: *commande lancer test unitaire*
+      - run : ng test
       - run : nmp install
       - run : ng build --prod
       - run : docker build -t Frontend .
