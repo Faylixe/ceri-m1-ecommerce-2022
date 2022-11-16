@@ -22,6 +22,9 @@ class Database:
         # create_table_song(engine)
         # create_table_artist(engine)
 
+    def remove_all_tab():
+        remove_table(engine)
+
     def get_all_songs():
         with Session(engine) as session:
             statement = select(Song)
