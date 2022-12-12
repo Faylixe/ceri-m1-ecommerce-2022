@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-variable "GOOGLE_APPLICATION_CREDENTIALS  " {
+variable "GOOGLE_APPLICATION_CREDENTIALS" {
   type = string
   sensitive = false
   description = "Google Cloud service account credentials"
