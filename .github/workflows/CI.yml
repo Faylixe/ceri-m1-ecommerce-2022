@@ -33,9 +33,9 @@ jobs:
       - name: Login to Github Packages
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/orangedog
+          username: _json_key_base64
+          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       
       - name: Build front-end image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -43,7 +43,7 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./platinum-front-end/
           # Note: tags has to be all lower-case
-          tags: ghcr.io/colintheo/front-end:latest
+          tags: europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/orangedog/front-end:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
@@ -56,7 +56,7 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./backend/
           # Note: tags has to be all lower-case
-          tags: ghcr.io/colintheo/back-end:latest
+          tags: europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/orangedog/back-end:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}    
 
