@@ -25,9 +25,9 @@ WORKDIR /code
 
 # 
 COPY ./requirements.txt /code/requirements.txt
-
+RUN sudo apt-get update -y
 RUN apt update -y && apt install -y libmariadb3 libmariadb-dev
-
+RUN pip3 install mariadb
 # 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
