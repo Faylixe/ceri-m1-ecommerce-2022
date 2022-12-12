@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run : sudo apt-get update -y
+      - run : apt update -y && apt install -y libmariadb3 libmariadb-dev
+      - run : pip3 install mariadb
       - run : pip install -r requirements.txt
       - run : pytest test
       - run : docker build -t Backend .
@@ -24,6 +27,8 @@ jobs:
       - run : nmp install
       - run : ng build --prod
       - run : docker build -t Frontend .
+      - run : docker login -u _json_key_base64 -p ${{ secrets.DOCKER_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse
+
   deploy:
     runs-on: ubuntu-latest
     needs:
