@@ -25,7 +25,7 @@ resource "google_cloud_run_service" "backend" {
   template {
     spec {
       service_account_name = "terraform-orangedog@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
-      container {
+      containers {
         env {
           name = "DATABASE_ADDRESS"
           value_from {
