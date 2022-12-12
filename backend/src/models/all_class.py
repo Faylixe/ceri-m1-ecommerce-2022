@@ -27,6 +27,19 @@ class Song(SQLModel, table=True):
     album: Optional[Album] = Relationship(back_populates="songs")
     id_artist: int = Field(default=None, foreign_key="artist.id")
 
+class User(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    username: str
+    password: str
+    is_connected: Optional[int] = Field(default=0, nullable=False)
+    image: Optional[str] = None
+    firstname: str
+    id_cart: int = Field(default=None, foreign_key="cart.id")
+
+class Cart(SQLModel, table=True):
+    id: Optional[int] = Field(nullable=False, primary_key=True)
+    
+
 def remove_table(engine):
     SQLModel.metadata.drop_all(engine)
 

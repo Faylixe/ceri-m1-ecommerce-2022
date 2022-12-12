@@ -1,6 +1,7 @@
 # from paths import MODELS_PATH
 # from src.models import *
 from src.models.all_class import *
+import hashlib
 # from src.models.artist import Artist, create_table_artist
 # from src.models.song import Song, create_table_song
 
@@ -17,7 +18,7 @@ class Database:
     # def __init__(self):
 
     def create_all_tab():
-        create_table(engine)
+        create_all_table(engine)
         # create_table_album(engine)
         # create_table_song(engine)
         # create_table_artist(engine)
@@ -74,11 +75,35 @@ class Database:
         with Session(engine) as session:
             statement = select(Album).where(Album.id == id_to_search)
             result = session.exec(statement).one()
-            print(result.songs)
+            print(result)
             # for song in results.songs:
             #     print(song)
-            return(result.songs)
+            return(result)
+    
+    def insert_user(new_username, new_password, new_firstname):
+        new_user = User(username=new_username, password= hashlib.sha256(new_password.encode('utf-8').hexdigest()), firstname=new_firstname)
+        session = Session(engine)
+        session.add(new_user)
+        session.commit()
+        session.refresh(new_user)
 
+
+    def connect_user(username, password):
+        resp = {'message', 'connect'}
+        with Session(engine) as session:
+            statement = select(User).where(User.username == username, User.password == hashlib.sha256(password.encode('utf-8').hexdigest()))
+            result = session.exec(statement).one()
+            print(result)
+        return resp
+
+    def user_is_connected():
+        with Session(engine) as session:
+            statement = select(User).where(User.is_connected == 1)
+            result = session.exec(statement).all()
+            if(len(result) == 0):
+                return False
+            else:
+                return True
 # def main():
 #     Database.create_all_tab()
 

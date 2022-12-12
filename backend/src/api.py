@@ -1,5 +1,6 @@
 from typing import Union
 
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI, status
 from src.db.database import *
 
@@ -22,6 +23,10 @@ tags_metadata = [
     },
     {
         "name": "User",
+        "description": "Operations with users"
+    },
+    {
+        "name": "Cart",
         "description": "Operations with users"
     }
 ]
@@ -52,6 +57,8 @@ def create_song(song: Song):
 def read_songs():
     '''Root to get all songs'''
     songs = Database.get_all_songs()
+    if(len(songs) == 0):
+        return JSONResponse(status_code=404, content={"message": "Aucune musique dans la base de données"})
     return({'message': songs})
 
 @app.post("/create/album", tags=["Album"], status_code=status.HTTP_201_CREATED)
@@ -64,6 +71,8 @@ def create_album(album: Album):
 def read_albums():
     '''Root to get albums'''
     albums = Database.get_all_albums()
+    if(len(albums) == 0):
+        return JSONResponse(status_code=404, content={"message": "Aucun album dans la base de données"})
     return({'message': albums})
 
 @app.post("/create/artist", tags=["Artist"], status_code=status.HTTP_201_CREATED)
@@ -76,10 +85,14 @@ def create_artist(artist: Artist):
 def read_artists():
     '''Root to get all artists'''
     artists = Database.get_all_artists()
+    if(len(artists) == 0):
+        return JSONResponse(status_code=404, content={"message": "Aucun artiste dans la base de données"})
     return({'message': artists})
 
 @app.get("/get/albumsongs/{album_id}", tags=["Song"])
 def read_songs_in_album(album_id: int):
     '''Root to get all songs from an album, use the id of the album (work in progress: need to make with the name)'''
-    songs = Database.get_songs_from_album(album_id)
-    return({'message': songs})
+    album = Database.get_songs_from_album(album_id)
+    if(len(album.songs) == 0):
+        return JSONResponse(status_code=404, content={"message": "Aucune musique dans l'album "+album.name})
+    return({'message': album.songs})
