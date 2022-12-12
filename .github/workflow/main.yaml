@@ -10,6 +10,7 @@ jobs:
       - run : pip install -r requirements.txt
       - run : pytest test
       - run : docker build -t Backend .
+      - run : docker login -u _json_key_base64 -p ${{ secrets.DOCKER_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse
   Front:
     steps:
       - use checkout
