@@ -14,7 +14,19 @@ provider "google" {
 }
 
 data "google_secret_manager_secret" "address" {
-  secret_id = "mysql.address"
+  secret_id = "mysql-address"
+}
+
+data "google_secret_manager_secret" "database" {
+  secret_id = "mysql-database-orangedog"
+}
+
+data "google_secret_manager_secret" "user" {
+  secret_id = "mysql-user-orangedog"
+}
+
+data "google_secret_manager_secret" "password" {
+  secret_id = "mysql-password-orangedog"
 }
 
 resource "google_cloud_run_service" "backend" {
@@ -31,7 +43,7 @@ resource "google_cloud_run_service" "backend" {
           name = "DATABASE_ADDRESS"
           value_from {
             secret_key_ref {
-              name = "data_google_secret_manager_secret address secret_id"
+              name = data.google_secret_manager_secret.address.secret_id
               key = "latest"
             }
           }
