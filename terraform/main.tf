@@ -50,5 +50,16 @@ resource "google_cloud_run_service" "backend" {
         }
       }
     }
+
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "1"
+      }
+    }
+  }
+
+  traffic {
+    percent = 100
+    latest_revision = true
   }
 }
