@@ -1,0 +1,12 @@
+# fastapi==0.85.1
+# pytest==7.1.3
+# mysql-connector-python==8.0.31
+# uvicorn
+# numpy
+# psycopg2
+
+fastapi==0.85.1
+pytest==7.1.3
+uvicorn
+numpy==1.21.4
+mariadb==1.0.11
