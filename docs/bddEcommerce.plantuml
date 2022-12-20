@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Album {
+idAlbum:int [PK]
+idArtiste:int [FK]
+nomAlbum:char(80)
+imageAlbum:char(80)
+prixAlbum:float
+quantiteStockAlbum:int
+anneeAlbum:date
+typeAlbum:TypeAlbum
+}
+
+class Artiste {
+idArtiste:int [PK]
+nomArtiste:char(80)
+}
+
+class Chanson {
+idChanson:int [PK]
+idAlbum:int [FK]
+nomChanson:char(80)
+}
+
+class Client {
+idClient:int [PK]
+nomClient:char(80)
+prenomClient:char(80)
+emailClient:char(80)
+mdpClient:char(80)
+telephoneClient:int
+adresseClient:char(38)
+adresseCPClient:int
+adresseVilleClient:char(38)
+}
+
+class Commande {
+idCommande:int [PK]
+idClient:char(80) [FK]
+dateCommande:date 
+montantCommande:float 
+etatCommande:TypeCommande
+telephoneClient:int
+adresseLivraison:char(38)
+adresseLivraisonCP:int
+adresseLivraisonVille:char(38)
+adresseFacturation:char(38)
+adresseFacturationCP:int
+adresseFacturationVille:char(38)
+}
+
+enum TypeAlbum {
+Pop
+Rock
+}
+
+enum EtatCommande {
+En préparation
+En cours de livraison
+Livré
+}
+
+Artiste "1..n" -up- "1..n  " Album
+Chanson "1..n  " -r- "1..n" Album
+Album::typeAlbum "1..n " -down- "1 " TypeAlbum
+Client "0..n" -up- "    1" Commande
+Commande "1..n " -l- "0..n   " Album
+Commande::etatCommande "1..n " -up- "0..n   " EtatCommande
+
+
+@enduml
