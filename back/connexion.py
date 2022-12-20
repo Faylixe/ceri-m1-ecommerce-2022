@@ -1,12 +1,9 @@
 import mariadb
 import hashlib
-
 import identifiantsbdd
-
 
 connection = mariadb.connect(user=identifiantsbdd.username, password=identifiantsbdd.password, database=identifiantsbdd.database, host=identifiantsbdd.host, port=identifiantsbdd.port)
 cursorDatabase = connection.cursor()
-
 
 def inscription(nom, prenom, email, password, telephone, adresse, codePostal, ville, pays):
     encoded=password.encode()
@@ -29,6 +26,4 @@ def connexion(email, password):
         result=cursorDatabase.fetchall()
         return('Bonjour ' + result[0][0]+ ' ' + result[0][1])
     else:
-        return print('Erreur de connexion, le mail ou le mot de passe est incorrect')
-
-# print(connexion('jcvinyl@gmail.com','jcvinyl'))
+        return('Erreur de connexion, le mail ou le mot de passe est incorrect')
