@@ -1,7 +1,7 @@
 terraform{
     cloud{
         organization = "Ceri"
-        workspace{
+        workspaces{
             name="MasterCodeuses"
         }
     }
