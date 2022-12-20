@@ -20,8 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run : docker login -u _json_key_base64 -p ${{ secrets.DOCKER_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse
-      - run : docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/frontend:0.0.1
       - run : docker build -t frontend .
+      - run : docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/frontend:0.0.1
+      - run : docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/frontend:0.0.1
 
   deploy:
     runs-on: ubuntu-latest
