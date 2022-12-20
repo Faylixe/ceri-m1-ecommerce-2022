@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run : docker login -u _json_key_base64 --password-stdin ${{ secrets.DOCKER_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse
+      - run : winpty docker login -u _json_key_base64 --password-stdin ${{ secrets.DOCKER_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse
       - run : docker build -t backend .
       - run : docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.1
       - run : docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.1
