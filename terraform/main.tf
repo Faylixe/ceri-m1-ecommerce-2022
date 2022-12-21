@@ -12,6 +12,10 @@ provider "google"{
     region="europe-west1"
 }
 
+resource "data_google" "secret_manager_secret" {
+    username = data_google.secret_manager_secret.user.secret_id
+}
+
 data "google_secret_manager_secret" "username" {
     secret_id="mysql-user-whitehorse"
 }
@@ -29,10 +33,11 @@ data "google_secret_manager_secret" "host" {
 }
 
 resource "google_cloud_run_service" "backend" {
+    name     = "whitehorse-frontend"
     location = google_cloud_run_service.backend.location
-    service = google_cloud_run_service.backend.name
-    role    = "roles/run.invoker"
-    member  = "allUsers"
+    service  = google_cloud_run_service.backend.name
+    role     = "roles/run.invoker"
+    member   = "allUsers"
 
     template{
         spec{
@@ -40,10 +45,10 @@ resource "google_cloud_run_service" "backend" {
             containers{
                 image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.1"
                 env{
-                    name="USERNAME"
+                    name="USER"
                     value_from{
                         secret_key_ref{
-                            name=data_google.secret_manager_secret.username.secret.secret_id
+                            name=data_google.secret_manager_secret.user.secret_id
                             key="latest"
                         }
                     }
@@ -52,7 +57,7 @@ resource "google_cloud_run_service" "backend" {
                     name="PASSWORD"
                     value_from{
                         secret_key_ref{
-                            name=data_google.secret_manager_secret.password.secret.secret_id
+                            name=data_google.secret_manager_secret.password.secret_id
                             key="latest"
                         }
                     }
@@ -61,7 +66,7 @@ resource "google_cloud_run_service" "backend" {
                     name="HOST"
                     value_from{
                         secret_key_ref{
-                            name=data_google.secret_manager_secret.host.secret.secret_id
+                            name=data_google.secret_manager_secret.host.secret_id
                             key="latest"
                         }
                     }
@@ -71,10 +76,10 @@ resource "google_cloud_run_service" "backend" {
                     value = 3306
                 }
                 env{
-                    name="DATABASE"
+                    name="DBNAME"
                     value_from{
                         secret_key_ref{
-                            name=data_google.secret_manager_secret.database.secret.secret_id
+                            name=data_google.secret_manager_secret.dbname.secret_id
                             key="latest"
                         }
                     }
@@ -93,7 +98,7 @@ resource "google_cloud_run_service" "backend" {
     }
 }
 resource "google_cloud_run_service" "frontend" {
-  name     = "frontend"
+  name     = "whitehorse-frontend"
   location = "europe-west1"
 
   template {
