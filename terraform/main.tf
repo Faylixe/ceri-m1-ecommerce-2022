@@ -12,10 +12,6 @@ provider "google"{
     region="europe-west1"
 }
 
-resource "data_google" "secret_manager_secret" {
-    username = data_google.secret_manager_secret.user.secret_id
-}
-
 data "google_secret_manager_secret" "username" {
     secret_id="mysql-user-whitehorse"
 }
