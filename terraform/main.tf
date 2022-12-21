@@ -91,10 +91,6 @@ resource "google_cloud_run_service" "backend" {
     }
 }
 
-locals {
-  cloud_run_url = google_cloud_run_service.cloud-run.status[0].url
-}
-
 resource "google_cloud_run_service" "frontend" {
   name     = "whitehorse-frontend"
   location = "europe-west1"
@@ -106,7 +102,7 @@ resource "google_cloud_run_service" "frontend" {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/frontend:0.0.1"
         env {
           name = "BACKEND_URL"
-          value = locals.cloud_run_url
+          value = google_cloud_run_service.default.status.0.url
         }
       }
     }
