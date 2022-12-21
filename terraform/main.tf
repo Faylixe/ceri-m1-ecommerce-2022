@@ -29,6 +29,7 @@ data "google_secret_manager_secret" "host" {
 }
 
 resource "google_cloud_run_service" "backend" {
+    provider = google-beta
     name     = "whitehorse-frontend"
     location = google_cloud_run_service.backend.location
     service  = google_cloud_run_service.backend.name
@@ -44,7 +45,7 @@ resource "google_cloud_run_service" "backend" {
                     name="USER"
                     value_from{
                         secret_key_ref{
-                            name=google.secret_manager_secret.user.secret_id
+                            name=google_secret_manager_secret.user.secret_id
                             key="latest"
                         }
                     }
