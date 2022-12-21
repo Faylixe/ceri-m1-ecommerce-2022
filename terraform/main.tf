@@ -90,3 +90,32 @@ resource "google_cloud_run_service" "backend" {
         latest_revision = true
     }
 }
+
+resource "google_cloud_run_service" "frontend" {
+  name     = "whitehorse-frontend"
+  location = "europe-west1"
+
+  template {
+    spec {
+      service_account_name = "terraform-whitehorse@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
+      containers {
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/frontend:0.0.1"
+        env {
+          name = "BACKEND_URL"
+          value = google_cloud_run_service.cloud-run.status[0].url
+        }
+      }
+    }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "1"
+      }
+    }
+  }
+
+  traffic {
+    percent = 100
+    latest_revision = true
+  }
+}
+
