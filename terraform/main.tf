@@ -12,7 +12,7 @@ provider "google"{
     region="europe-west1"
 }
 
-data "google_secret_manager_secret" "username" {
+data "google_secret_manager_secret" "user" {
     secret_id="mysql-user-whitehorse"
 }
 
@@ -20,7 +20,7 @@ data "google_secret_manager_secret" "password" {
     secret_id="mysql-password-whitehorse"
 }
 
-data "google_secret_manager_secret" "database" {
+data "google_secret_manager_secret" "dbname" {
     secret_id="mysql-database-whitehorse"
 }
 
@@ -63,7 +63,7 @@ resource "google_cloud_run_service" "backend" {
                     name="HOST"
                     value_from{
                         secret_key_ref{
-                            name=data.google.secret_manager_secret.host.secret_id
+                            name=data.google_secret_manager_secret.host.secret_id
                             key="latest"
                         }
                     }
