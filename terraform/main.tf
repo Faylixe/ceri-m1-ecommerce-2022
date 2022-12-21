@@ -28,6 +28,10 @@ data "google_secret_manager_secret" "host" {
     secret_id="mysql-address"
 }
 
+ressource "data_google" "secret_manager_secret" {
+    secret_id="mysql-user-whitehorse"
+}
+
 resource "google_cloud_run_service" "backend" {
     name     = "whitehorse-frontend"
     location = google_cloud_run_service.backend.location
