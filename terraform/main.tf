@@ -29,11 +29,8 @@ data "google_secret_manager_secret" "host" {
 }
 
 resource "google_cloud_run_service" "backend" {
-    provider = google-beta
     name     = "whitehorse-frontend"
     location = google_cloud_run_service.backend.location
-    role     = "roles/run.invoker"
-    member   = "allUsers"
 
     template{
         spec{
