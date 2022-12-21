@@ -32,7 +32,6 @@ resource "google_cloud_run_service" "backend" {
     provider = google-beta
     name     = "whitehorse-frontend"
     location = google_cloud_run_service.backend.location
-    service  = google_cloud_run_service.backend.name
     role     = "roles/run.invoker"
     member   = "allUsers"
 
