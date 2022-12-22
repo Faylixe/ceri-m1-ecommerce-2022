@@ -42,8 +42,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
       - run: terraform init
         env: 
-          GOOGLE_APPLICATION_CREDENTIALS : ${{ secrets.DOCKER_PASSWORD }}
-      - run: gcloud auth application-default login
+          GOOGLE_CREDENTIALS : ${{ secrets.DOCKER_PASSWORD }}
       - run: terraform apply -auto-approve -input=False
         env: 
-          GOOGLE_APPLICATION_CREDENTIALS : ${{ secrets.DOCKER_PASSWORD }}
+          GOOGLE_CREDENTIALS : ${{ secrets.DOCKER_PASSWORD }}
