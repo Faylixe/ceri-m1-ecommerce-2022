@@ -134,6 +134,13 @@ resource "google_cloud_run_service" "frontend" {
   }
 }
 
+output "url" {
+  value       = google_cloud_run_service.frontend.status[0].url
+  sensitive   = false
+  description = "description"
+  depends_on  = []
+}
+
 resource "google_cloud_run_service_iam_member" "invokers" {
   location = google_cloud_run_service.backend.location
   service = google_cloud_run_service.backend.name
