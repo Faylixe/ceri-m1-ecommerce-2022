@@ -38,6 +38,7 @@ class User(SQLModel, table=True):
 
 class Cart(SQLModel, table=True):
     id: Optional[int] = Field(nullable=False, primary_key=True)
+    price: int
     
 
 def remove_table(engine):
