@@ -111,7 +111,6 @@ resource "google_cloud_run_service" "frontend" {
       }
     }
   }
-
   traffic {
     percent = 100
     latest_revision = true
