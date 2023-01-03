@@ -36,9 +36,9 @@ data "google_secret_manager_secret" "user" {
   secret_id = "mysql-user-orangedog"
 }
 
-data "google_secret_manager_secret" "password" {
-  secret_id = "mysql-password-orangedog"
-}
+# data "google_secret_manager_secret" "password" {
+#   secret_id = "mysql-password-orangedog"
+# }
 
 resource "google_cloud_run_service" "backend" {
 
