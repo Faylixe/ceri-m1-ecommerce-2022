@@ -20,6 +20,10 @@ provider "google" {
     credentials = var.GOOGLE_APPLICATION_CREDENTIALS 
 }
 
+output "gg" {
+  vamue = var.GOOGLE_APPLICATION_CREDENTIALS
+}
+
 data "google_secret_manager_secret" "address" {
   secret_id = "mysql-address"
 }
@@ -69,6 +73,13 @@ resource "google_cloud_run_service" "backend" {
     percent = 100
     latest_revision = true
   }
+}
+
+output "back-end url" {
+  value       = google_cloud_run_service.backend.status
+  sensitive   = false
+  description = "description"
+  depends_on  = []
 }
 
 resource "google_cloud_run_service_iam_member" "invokers" {
