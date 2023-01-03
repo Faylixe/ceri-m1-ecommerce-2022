@@ -127,5 +127,5 @@ resource "google_cloud_run_service_iam_member" "noauth" {
 }
 
 output "url" {
-  value="google_cloud_run_service.backend.status.0.url"
+  value=google_cloud_run_service.backend.status.0.url
 }
