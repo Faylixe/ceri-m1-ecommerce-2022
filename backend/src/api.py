@@ -96,3 +96,17 @@ def read_songs_in_album(album_id: int):
     if(len(album.songs) == 0):
         return JSONResponse(status_code=404, content={"message": "Aucune musique dans l'album "+album.name})
     return({'message': album.songs})
+
+@app.post("/create/user", tags=["User"], status_code=status.HTTP_201_CREATED)
+def create_album(user: User):
+    '''Root to create an user'''
+    Database.insert_user(user.username, user.password, user.firstname)
+    return({'message': user})
+
+@app.get("/get/user/{username}/{password}")
+def connect_user(username: str, password: str):
+    '''Root to conect an user'''
+    resp = Database.connect_user(username, password)
+    if(resp['status'] == 404):
+        return JSONResponse(status_code=404, content={"message": resp['message']})
+    return({'message': resp['message']})

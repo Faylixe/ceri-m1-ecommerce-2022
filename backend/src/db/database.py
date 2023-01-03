@@ -81,19 +81,32 @@ class Database:
             return(result)
     
     def insert_user(new_username, new_password, new_firstname):
-        new_user = User(username=new_username, password= hashlib.sha256(new_password.encode('utf-8').hexdigest()), firstname=new_firstname)
+        new_user = User(username=new_username, password= hashlib.sha256(new_password.encode('utf-8')).hexdigest(), firstname=new_firstname)
         session = Session(engine)
         session.add(new_user)
         session.commit()
         session.refresh(new_user)
 
-
     def connect_user(username, password):
-        resp = {'message', 'connect'}
+        resp = {'message': str, 'status': int}
         with Session(engine) as session:
-            statement = select(User).where(User.username == username, User.password == hashlib.sha256(password.encode('utf-8').hexdigest()))
-            result = session.exec(statement).one()
+            statement = select(User).where(User.username == username)
+            result = session.exec(statement)
             print(result)
+            if(len(result.all()) == 0):
+                resp['message'] = "Nom d'utilisateur inexistant"
+                resp['status'] = 404
+            else:
+                statement = select(User).where(User.username == username, User.password == hashlib.sha256(password.encode('utf-8')).hexdigest())
+                result = session.exec(statement)
+                print(result)
+                if(len(result.all()) == 0):
+                    resp['message'] = "Mot de passe incorrect"
+                    resp['status'] = 404
+                else:
+                    user = result.one()
+                    resp['message'] = "Bienvenue " + user.firstname
+                    resp['status'] = 200
         return resp
 
     def user_is_connected():
