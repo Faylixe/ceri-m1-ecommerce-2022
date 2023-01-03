@@ -70,3 +70,10 @@ resource "google_cloud_run_service" "backend" {
     latest_revision = true
   }
 }
+
+resource "google_cloud_run_service_iam_member" "invokers" {
+  location = google_cloud_run_service.backend.location
+  service = google_cloud_run_service.backend.name
+  role    = "roles/run.invoker"
+  member  = "allUsers"
+}
