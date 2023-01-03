@@ -21,7 +21,7 @@ provider "google" {
 }
 
 output "gg" {
-  vamue = var.GOOGLE_APPLICATION_CREDENTIALS
+  value = var.GOOGLE_APPLICATION_CREDENTIALS
 }
 
 data "google_secret_manager_secret" "address" {
@@ -75,7 +75,7 @@ resource "google_cloud_run_service" "backend" {
   }
 }
 
-output "back-end url" {
+output "url" {
   value       = google_cloud_run_service.backend.status
   sensitive   = false
   description = "description"
