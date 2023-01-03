@@ -32,17 +32,15 @@ data "google_secret_manager_secret" "database" {
   secret_id = "mysql-database-orangedog"
 }
 
-data "google_secret_manager_secret" "user" {
-  secret_id = "mysql-user-orangedog"
+data "google_secret_manager_secret" "password" {
+  secret_id = "mysql-password-orangedog"
 }
 
-# data "google_secret_manager_secret" "password" {
-#   secret_id = "mysql-password-orangedog"
-# }
+
 
 resource "google_cloud_run_service" "backend" {
 
-  name     = "backend"
+  name     = "orangedog-backend"
   location = "europe-west1"
 
   template {
@@ -58,6 +56,9 @@ resource "google_cloud_run_service" "backend" {
               key = "latest"
             }
           }
+        }
+        ports {
+          container_port = 5000
         }
       }
     }
