@@ -94,7 +94,7 @@ resource "google_cloud_run_service" "backend" {
   }
 }
 
-output "url" {
+output "url_back" {
   value       = google_cloud_run_service.backend.status[0].url
   sensitive   = false
   description = "description"
@@ -134,7 +134,7 @@ resource "google_cloud_run_service" "frontend" {
   }
 }
 
-output "url" {
+output "url_front" {
   value       = google_cloud_run_service.frontend.status[0].url
   sensitive   = false
   description = "description"
