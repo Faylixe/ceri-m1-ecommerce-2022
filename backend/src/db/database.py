@@ -6,11 +6,48 @@ import hashlib
 # from src.models.song import Song, create_table_song
 
 from typing import Optional
-from sqlmodel import Field, SQLModel, create_engine, Session, select
+from sqlmodel import create_engine, Session, select
+from google.cloud.sql.connector import Connector, IPTypes
+from decouple import config
+import pymysql
+import sqlalchemy
+import os
+
+def connect_with_connector() -> sqlalchemy.engine.base.Engine:
+    # Note: Saving credentials in environment variables is convenient, but not
+    # secure - consider a more secure solution such as
+    # Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
+    # keep secrets safe.
+    db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
+
+    db_user = os.environ.get("DATABASE_USER")   # config('DATABASE_USER')  # e.g. 'my-db-user'
+    db_pass = os.environ.get("PASSWORD") # config('PASSWORD') # os.environ["PASSWORD"]  # e.g. 'my-db-password'
+    db_name = os.environ.get("DATABASE_NAME") # config('DATABASE_NAME') # os.environ["DATABASE_NAME"]  # e.g. 'my-database'
+    ip_type = IPTypes.PRIVATE if os.environ.get("PRIVATE_IP") else IPTypes.PUBLIC
+
+    connector = Connector(ip_type)
+
+    def getconn() -> pymysql.connections.Connection:
+        conn: pymysql.connections.Connection = connector.connect(
+            db_address,
+            "pymysql",
+            user=db_user,
+            password=db_pass,
+            db=db_name,
+        )
+        return conn
+
+    pool = sqlalchemy.create_engine(
+        "mysql+pymysql://",
+        creator=getconn,
+        # ...
+    )
+    return pool
+
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
-engine = create_engine(sqlite_url, echo=True)
+engine = connect_with_connector()# create_engine(sqlite_url, echo=True)
 class Database:
     # sqlite_file_name = "db/database.db"
     # sqlite_url = f"sqlite:///{sqlite_file_name}"

@@ -103,7 +103,7 @@ def create_album(user: User):
     Database.insert_user(user.username, user.password, user.firstname)
     return({'message': user})
 
-@app.get("/get/user/{username}/{password}")
+@app.get("/get/user/{username}/{password}", tags=["User"], status_code=status.HTTP_202_ACCEPTED)
 def connect_user(username: str, password: str):
     '''Root to conect an user'''
     resp = Database.connect_user(username, password)
