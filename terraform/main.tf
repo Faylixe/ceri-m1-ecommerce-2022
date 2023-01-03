@@ -89,6 +89,18 @@ resource "google_cloud_run_service" "backend" {
         latest_revision = true
     }
 }
+resource "google_cloud_run_service_iam_member" "frontnoauth" {
+  location    = google_cloud_run_service.frontend.location
+  project     = google_cloud_run_service.frontend.project
+  service     = google_cloud_run_service.frontend.name
+#  policy_data = data.google_iam_policy.noauth.policy_data
+  role        = "roles/run.invoker"
+  member      = "allUsers"
+}
+
+output "frontendurl" {
+  value=google_cloud_run_service.frontend.status.0.url
+}
 
 resource "google_cloud_run_service" "frontend" {
   name     = "whitehorse-frontend"
