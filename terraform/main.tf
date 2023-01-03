@@ -64,7 +64,7 @@ resource "google_cloud_run_service" "backend" {
                     }
                 }
                 env{
-                    name = "PORT"
+                    name = "MYSQL_PORT"
                     value = 3306
                 }
                 env{
