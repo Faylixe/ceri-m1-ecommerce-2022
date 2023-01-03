@@ -30,7 +30,7 @@ data "google_secret_manager_secret" "host" {
 
 resource "google_cloud_run_service" "backend" {
     name     = "whitehorse-frontend"
-    location = google_cloud_run_service.backend.location
+    location = "europe-west1"
     template{
         spec{
             service_account_name = "terraform-whitehorse@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
