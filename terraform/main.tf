@@ -20,10 +20,6 @@ provider "google" {
     credentials = var.GOOGLE_APPLICATION_CREDENTIALS 
 }
 
-output "gg" {
-  value = var.GOOGLE_APPLICATION_CREDENTIALS
-}
-
 data "google_secret_manager_secret" "address" {
   secret_id = "mysql-address"
 }
@@ -77,7 +73,7 @@ resource "google_cloud_run_service" "backend" {
 }
 
 output "url" {
-  value       = google_cloud_run_service.backend.status
+  value       = google_cloud_run_service.backend.status[0].url
   sensitive   = false
   description = "description"
   depends_on  = []
