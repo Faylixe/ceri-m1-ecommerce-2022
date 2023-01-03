@@ -116,3 +116,16 @@ resource "google_cloud_run_service" "frontend" {
     latest_revision = true
   }
 }
+
+resource "google_cloud_run_service_iam_member" "noauth" {
+  location    = google_cloud_run_service.backend.location
+  project     = google_cloud_run_service.backend.project
+  service     = google_cloud_run_service.backend.name
+#  policy_data = data.google_iam_policy.noauth.policy_data
+  role        = "roles/run.invoker"
+  member      = "allUsers"
+}
+
+output "url" {
+  value="google_cloud_run_service.backend.status.0.url"
+}
