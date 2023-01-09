@@ -1,8 +1,5 @@
 import mariadb
 import hashlib
-import identifiantsbdd
-
-
 import database
 cursorDatabase = database.connection.cursor()
 
