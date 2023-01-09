@@ -7,4 +7,4 @@ DBNAME=environ.get("DBNAME")
 HOST=environ.get("HOST")
 MYSQL_PORT=3306
 
-connection = mariadb.connect(user=USER, password=PASSWORD, database=DBNAME, host=HOST, port=int(MYSQL_PORT))
+connection = mariadb.connect(user=USER, password=PASSWORD, database=DBNAME, unix_socket= "/cloudsql/ceri-m1-ecommerce-2022:europe-west1:mysql-primary", port=int(MYSQL_PORT))
