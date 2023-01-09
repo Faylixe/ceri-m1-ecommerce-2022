@@ -7,16 +7,11 @@ from pydantic import BaseModel
 from typing import Union
 import admin
 
-from os import environ
 
-USER=environ.get("USER")
-PASSWORD=environ.get("PASSWORD")
-DBNAME=environ.get("DBNAME")
-HOST=environ.get("HOST")
-MYSQL_PORT=3306
+import identifiantsbdd
+import database
+cursorDatabase = database.connection.cursor()
 
-connection = mariadb.connect(user=USER, password=PASSWORD, database=DBNAME, host=HOST, port=MYSQL_PORT)
-cursorDatabase = connection.cursor()
 
 query=f'SELECT * FROM `album`'
 cursorDatabase.execute(query)
@@ -26,7 +21,7 @@ for row in cursorDatabase:
 # print(nbAlbums)
 
 def getEverything():
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     AllItems=[]
     query=f'SELECT nomAlbum, nomArtiste, imageAlbum, prixAlbum, quantiteStockAlbum FROM album NATURAL JOIN artiste ORDER BY nomArtiste, nomAlbum ASC'
     
@@ -48,7 +43,7 @@ def getEverything():
     return Everything
 
 def getArtists():
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     AllArtists=[]
     query=f'SELECT nomArtiste FROM artiste ORDER BY nomArtiste ASC'
     cursorDatabase.execute(query)
@@ -63,7 +58,7 @@ def getArtists():
 
 
 def getAlbumByArtist(nomArtiste):
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     Albums=[]
     query=f'SELECT nomAlbum, imageAlbum, prixAlbum, quantiteStockAlbum FROM artiste NATURAL JOIN album WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\')   GROUP BY nomAlbum, imageAlbum, prixAlbum, quantiteStockAlbum ORDER BY nomAlbum ASC'
     cursorDatabase.execute(query)
@@ -83,7 +78,7 @@ def getAlbumByArtist(nomArtiste):
     return ListeAlbums
 
 def getMusicsByArtist(nomArtiste, nomAlbum):
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     Musiques=[]
     query=f'SELECT nomChanson FROM chanson NATURAL JOIN album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\') ORDER BY nomChanson'
     cursorDatabase.execute(query)
@@ -95,7 +90,7 @@ def getMusicsByArtist(nomArtiste, nomAlbum):
 
 def getAlbumImage(nomArtiste, nomAlbum):
     imageAlbum=""
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     query=f'SELECT imageAlbum FROM album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\')'
     cursorDatabase.execute(query)
     for row in cursorDatabase:
@@ -105,7 +100,7 @@ def getAlbumImage(nomArtiste, nomAlbum):
 
 def getAlbumPrice(nomArtiste, nomAlbum):
     prixAlbum=""
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     query=f'SELECT prixAlbum FROM album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\')'
     cursorDatabase.execute(query)
     for row in cursorDatabase:
@@ -115,7 +110,7 @@ def getAlbumPrice(nomArtiste, nomAlbum):
 
 def getAlbumId(nomArtiste, nomAlbum):
     idAlbum=""
-    cursorDatabase = connection.cursor()
+    cursorDatabase = cursorDatabase
     query=f'SELECT idAlbum FROM album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\')'
     cursorDatabase.execute(query)
     for row in cursorDatabase:
