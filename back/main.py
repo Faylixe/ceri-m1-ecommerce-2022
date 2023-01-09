@@ -6,13 +6,14 @@ import commande
 from pydantic import BaseModel
 from typing import Union
 import admin
-import identifiantsbdd
 
-USER=identifiantsbdd.username
-PASSWORD=identifiantsbdd.password
-DBNAME=identifiantsbdd.database
-HOST=identifiantsbdd.host
-MYSQL_PORT=identifiantsbdd.port
+from os import environ
+
+USER=environ.get("USER")
+PASSWORD=environ.get("PASSWORD")
+DBNAME=environ.get("DBNAME")
+HOST=environ.get("HOST")
+MYSQL_PORT=3306
 
 connection = mariadb.connect(user=USER, password=PASSWORD, database=DBNAME, host=HOST, port=MYSQL_PORT)
 cursorDatabase = connection.cursor()
