@@ -12,42 +12,65 @@ from decouple import config
 import pymysql
 import sqlalchemy
 import os
+from pydantic import BaseSettings
+from dotenv import load_dotenv
+load_dotenv()
 
-def connect_with_connector() -> sqlalchemy.engine.base.Engine:
-    # Note: Saving credentials in environment variables is convenient, but not
-    # secure - consider a more secure solution such as
-    # Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-    # keep secrets safe.
-    db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
+class Settings(BaseSettings):
+    database_user: str
+    password: str
+    database_name: str
+    database_address: str
 
-    db_user = os.environ.get("DATABASE_USER")   # config('DATABASE_USER')  # e.g. 'my-db-user'
-    db_pass = os.environ.get("PASSWORD") # config('PASSWORD') # os.environ["PASSWORD"]  # e.g. 'my-db-password'
-    db_name = os.environ.get("DATABASE_NAME") # config('DATABASE_NAME') # os.environ["DATABASE_NAME"]  # e.g. 'my-database'
-    ip_type = IPTypes.PRIVATE if os.environ.get("PRIVATE_IP") else IPTypes.PUBLIC
+    class Config:
+        env_file = ".env"
+# def connect_with_connector() -> sqlalchemy.engine.base.Engine:
+#     # Note: Saving credentials in environment variables is convenient, but not
+#     # secure - consider a more secure solution such as
+#     # Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
+#     # keep secrets safe.
+#     db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
 
-    connector = Connector(ip_type)
+#     db_user = os.environ.get("DATABASE_USER")   # config('DATABASE_USER')  # e.g. 'my-db-user'
+#     db_pass = os.environ.get("PASSWORD") # config('PASSWORD') # os.environ["PASSWORD"]  # e.g. 'my-db-password'
+#     db_name = os.environ.get("DATABASE_NAME") # config('DATABASE_NAME') # os.environ["DATABASE_NAME"]  # e.g. 'my-database'
+#     ip_type = IPTypes.PRIVATE if os.environ.get("PRIVATE_IP") else IPTypes.PUBLIC
+    
+#     connector = Connector(ip_type)
 
-    def getconn() -> pymysql.connections.Connection:
-        conn: pymysql.connections.Connection = connector.connect(
-            db_address,
-            "pymysql",
-            user=db_user,
-            password=db_pass,
-            db=db_name,
-        )
-        return conn
+#     def getconn() -> pymysql.connections.Connection:
+#         conn: pymysql.connections.Connection = connector.connect(
+#             db_address,
+#             "pymysql",
+#             user=db_user,
+#             password=db_pass,
+#             db=db_name,
+#         )
+#         return conn
 
-    pool = sqlalchemy.create_engine(
-        "mysql+pymysql://",
-        creator=getconn,
-        # ...
-    )
-    return pool
+#     pool = sqlalchemy.create_engine(
+#         "mysql+pymysql://",
+#         creator=getconn,
+#         # ...
+#     )
+#     return pool
 
-
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-engine = connect_with_connector()# create_engine(sqlite_url, echo=True)
+db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
+settings = Settings()
+# connection_name = 'ceri-m1-ecommerce-2022:europe-west1:mysql-primary'
+db_user = os.environ.get("DATABASE_USER")   # config('DATABASE_USER')  # e.g. 'my-db-user'
+db_pass = os.environ.get("PASSWORD") # config('PASSWORD') # os.environ["PASSWORD"]  # e.g. 'my-db-password'
+db_name = os.environ.get("DATABASE_NAME") # config('DATABASE_NAME') # os.environ["DATABASE_NAME"]  # e.g. 'my-database'
+DATABASE_URL = sqlalchemy.engine.url.URL.create(
+    drivername="mysql+pymysql",
+    username=db_user,
+    password=db_pass,
+    database=db_name,
+    query={"unix_socket": "{}/{}".format("/cloudsql", db_address)},
+)
+# sqlite_file_name = "database.db"
+# sqlite_url = f"sqlite:///{sqlite_file_name}"
+engine = create_engine(DATABASE_URL)
 class Database:
     # sqlite_file_name = "db/database.db"
     # sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -55,6 +78,8 @@ class Database:
     # def __init__(self):
 
     def create_all_tab():
+        print('URL: ', DATABASE_URL)
+        # print('Yes: ', connection_name)
         create_all_table(engine)
         # create_table_album(engine)
         # create_table_song(engine)
