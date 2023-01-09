@@ -6,9 +6,15 @@ import commande
 from pydantic import BaseModel
 from typing import Union
 import admin
-
 import identifiantsbdd
-connection = mariadb.connect(user=identifiantsbdd.username, password=identifiantsbdd.password, database=identifiantsbdd.database, host=identifiantsbdd.host, port=identifiantsbdd.port)
+
+USER=identifiantsbdd.username
+PASSWORD=identifiantsbdd.password
+DBNAME=identifiantsbdd.database
+HOST=identifiantsbdd.host
+MYSQL_PORT=identifiantsbdd.port
+
+connection = mariadb.connect(user=USER, password=PASSWORD, database=DBNAME, host=HOST, port=MYSQL_PORT)
 cursorDatabase = connection.cursor()
 
 query=f'SELECT * FROM `album`'
