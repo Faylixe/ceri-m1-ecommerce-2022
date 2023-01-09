@@ -18,7 +18,7 @@ for row in cursorDatabase:
 # print(nbAlbums)
 
 def getEverything():
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     AllItems=[]
     query=f'SELECT nomAlbum, nomArtiste, imageAlbum, prixAlbum, quantiteStockAlbum FROM album NATURAL JOIN artiste ORDER BY nomArtiste, nomAlbum ASC'
     
@@ -40,7 +40,7 @@ def getEverything():
     return Everything
 
 def getArtists():
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     AllArtists=[]
     query=f'SELECT nomArtiste FROM artiste ORDER BY nomArtiste ASC'
     cursorDatabase.execute(query)
@@ -75,7 +75,7 @@ def getAlbumByArtist(nomArtiste):
     return ListeAlbums
 
 def getMusicsByArtist(nomArtiste, nomAlbum):
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     Musiques=[]
     query=f'SELECT nomChanson FROM chanson NATURAL JOIN album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\') ORDER BY nomChanson'
     cursorDatabase.execute(query)
@@ -87,7 +87,7 @@ def getMusicsByArtist(nomArtiste, nomAlbum):
 
 def getAlbumImage(nomArtiste, nomAlbum):
     imageAlbum=""
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     query=f'SELECT imageAlbum FROM album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\')'
     cursorDatabase.execute(query)
     for row in cursorDatabase:
@@ -97,7 +97,7 @@ def getAlbumImage(nomArtiste, nomAlbum):
 
 def getAlbumPrice(nomArtiste, nomAlbum):
     prixAlbum=""
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     query=f'SELECT prixAlbum FROM album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\')'
     cursorDatabase.execute(query)
     for row in cursorDatabase:
@@ -107,7 +107,7 @@ def getAlbumPrice(nomArtiste, nomAlbum):
 
 def getAlbumId(nomArtiste, nomAlbum):
     idAlbum=""
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     query=f'SELECT idAlbum FROM album NATURAL JOIN artiste WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\') AND LOWER(nomAlbum) = LOWER(\'{nomAlbum}\')'
     cursorDatabase.execute(query)
     for row in cursorDatabase:
