@@ -55,7 +55,7 @@ def getArtists():
 
 
 def getAlbumByArtist(nomArtiste):
-    cursorDatabase = cursorDatabase
+    global cursorDatabase
     Albums=[]
     query=f'SELECT nomAlbum, imageAlbum, prixAlbum, quantiteStockAlbum FROM artiste NATURAL JOIN album WHERE LOWER(nomArtiste) = LOWER(\'{nomArtiste}\')   GROUP BY nomAlbum, imageAlbum, prixAlbum, quantiteStockAlbum ORDER BY nomAlbum ASC'
     cursorDatabase.execute(query)
