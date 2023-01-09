@@ -6,9 +6,6 @@ import commande
 from pydantic import BaseModel
 from typing import Union
 import admin
-
-
-import identifiantsbdd
 import database
 cursorDatabase = database.connection.cursor()
 
