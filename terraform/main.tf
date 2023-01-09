@@ -83,7 +83,8 @@ resource "google_cloud_run_service" "backend" {
 
     metadata {
       annotations = {
-        "autoscaling.knative.dev/maxScale" = "1"
+        "autoscaling.knative.dev/maxScale" = "1",
+        "seed" = "${timestamp()}"
       }
     }
   }
@@ -139,10 +140,6 @@ output "url_front" {
   sensitive   = false
   description = "description"
   depends_on  = []
-}
-
-output "timestamp" {
-  value = "${timestamp()}"
 }
 
 resource "google_cloud_run_service_iam_member" "invokers" {
