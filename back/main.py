@@ -6,9 +6,6 @@ import commande
 from pydantic import BaseModel
 from typing import Union
 import admin
-import os
-from os.path import  join, dirname
-from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), 'identifiants.env')
 load_dotenv(dotenv_path)
