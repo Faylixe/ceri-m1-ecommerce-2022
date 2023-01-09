@@ -14,7 +14,7 @@ jobs:
       - run : docker login -u _json_key_base64 -p ${{ secrets.DOCKER_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse
       - run : docker build -t backend .
       - run : docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.7
-      - run : docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.6
+      - run : docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.7
   Front:
     defaults:
         run:
