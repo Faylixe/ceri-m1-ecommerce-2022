@@ -141,6 +141,10 @@ output "url_front" {
   depends_on  = []
 }
 
+output "timestamp" {
+  value = "${local.timestamp_sanitized}"
+}
+
 resource "google_cloud_run_service_iam_member" "invokers" {
   location = google_cloud_run_service.backend.location
   service = google_cloud_run_service.backend.name
