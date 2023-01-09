@@ -1,7 +1,5 @@
 import mariadb
 import numpy as np
-
-import identifiantsbdd
 import database
 cursorDatabase = database.connection.cursor()
 
