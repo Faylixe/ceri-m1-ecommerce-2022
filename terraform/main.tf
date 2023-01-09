@@ -142,7 +142,7 @@ output "url_front" {
 }
 
 output "timestamp" {
-  value = "${local.timestamp_sanitized}"
+  value = "${timestamp()}"
 }
 
 resource "google_cloud_run_service_iam_member" "invokers" {
