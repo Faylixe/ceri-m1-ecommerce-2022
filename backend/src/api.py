@@ -33,7 +33,7 @@ tags_metadata = [
 ]
 
 
-app = FastAPI(title="Jean Cloud Vinil backend", version=1.0, openapi_tags=tags_metadata)
+app = FastAPI(title="Jean Cloud Vinil backend", version=1.5, openapi_tags=tags_metadata)
 
 origins = [
     "*"
