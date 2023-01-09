@@ -3,6 +3,7 @@ from typing import Union
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI, status
 from src.db.database import *
+from fastapi.middleware.cors import CORSMiddleware
 
 tags_metadata = [
     {
@@ -31,7 +32,20 @@ tags_metadata = [
     }
 ]
 
+
 app = FastAPI(title="Jean Cloud Vinil backend", version=1.0, openapi_tags=tags_metadata)
+
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=[""],
+    allow_headers=[""],
+)
 
 @app.get("/", tags=["Database"], status_code=status.HTTP_200_OK)
 def read_root():
