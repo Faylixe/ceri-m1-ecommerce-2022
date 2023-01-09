@@ -2,7 +2,13 @@ import mariadb
 import hashlib
 import identifiantsbdd
 
-connection = mariadb.connect(user=identifiantsbdd.username, password=identifiantsbdd.password, database=identifiantsbdd.database, host=identifiantsbdd.host, port=identifiantsbdd.port)
+USER=identifiantsbdd.username
+PASSWORD=identifiantsbdd.password
+DBNAME=identifiantsbdd.database
+HOST=identifiantsbdd.host
+MYSQL_PORT=identifiantsbdd.port
+
+connection = mariadb.connect(user=USER, password=PASSWORD, database=DBNAME, host=HOST, port=MYSQL_PORT)
 cursorDatabase = connection.cursor()
 
 # p=os.system('start cloud-sql-proxy.exe --credentials-file "Cle GCP.json" ceri-m1-ecommerce-2022:europe-west1:mysql-primary')
