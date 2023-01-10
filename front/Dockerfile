@@ -1,8 +1,10 @@
 FROM node:18.12.0 AS node
 WORKDIR /appli_ecommerce
 COPY package.json .
+RUN npm install
 COPY . .
-RUN npm install -g npm@9.2.0
+RUN npm build
+
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
 COPY --from=node /appli_ecommerce/dist/appli_ecommerce /usr/share/nginx/html
