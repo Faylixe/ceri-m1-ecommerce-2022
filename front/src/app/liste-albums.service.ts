@@ -20,7 +20,7 @@ export class ListeAlbumsService {
   }
 
   getMusicsByArtist(nom_Artiste:string,nom_Album:string): Observable<any> {
-    var url=backend+nom_Artiste+"/"+ nom_Album;
+    var url=this.backend+"/"+nom_Artiste+"/"+ nom_Album;
     console.log("test service details" ,nom_Artiste,nom_Album);
     const headers = new HttpHeaders()
 	    .set('Content-Type', 'application/json');
