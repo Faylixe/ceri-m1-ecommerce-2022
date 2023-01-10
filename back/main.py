@@ -158,6 +158,10 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+@app.get("/test")
+def test():
+    return {"Backend e-commerce opérationnel"}
+
 @app.get("/")
 def read_root():
     return {"Item": getEverything()}
