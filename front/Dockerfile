@@ -3,7 +3,7 @@ WORKDIR /appli_ecommerce
 COPY package.json .
 RUN npm install
 COPY . .
-RUN npm build
+RUN npm run build
 
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
