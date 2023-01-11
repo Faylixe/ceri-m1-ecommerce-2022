@@ -10,12 +10,12 @@ interface vinylCardProps {
     title: string,
     text: string,
     price: string,
-    href: string
+    onClick: any
 }
 
 const VinylCard = (props: vinylCardProps) => {
     return (
-        <Card sx={{ maxWidth: 1080, margin: 2 }}>
+        <Card sx={{ maxWidth: 1080, margin: 2 }} onClick={props.onClick}>
             <CardActionArea>
                 <CardMedia
                     component="img"

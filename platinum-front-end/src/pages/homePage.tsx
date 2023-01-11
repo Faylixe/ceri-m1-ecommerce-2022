@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react";
+import React, { Component, useState, useRef, useEffect } from "react";
 
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
@@ -6,19 +6,11 @@ import VinylCard from "../components/vinylCard";
 import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, Typography } from '@mui/material';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 const handleDragStart = (e: { preventDefault: () => any; }) => e.preventDefault();
-
-const items = [
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-    <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
-];
 
 const responsive = {
     0: { items: 1 },
@@ -26,6 +18,118 @@ const responsive = {
 }
 
 const HomePage = () => {
+
+    const navigate = useNavigate();
+    const [items, setItems] = useState<any[]>([]);
+    // const items = [
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    //     <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"album 1"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} />,
+    // ];
+
+    // useEffect(() => {
+
+    //     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    //     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    //     axios.get(`https://orangedog-backend-mwjszocsqa-ew.a.run.app/get/albums`, {
+    //         headers: {
+    //             'Allow-Origin': "*"
+    //         }
+    //     })
+    //         .then((res: { data: any; }) => {
+
+    //             if (res.data) {
+    //                 const data = res.data;
+    //                 const array: any[] = [];
+    //                 data.forEach((element: any) => {
+    //                     console.log(element)
+    //                     const vinyleCard = <VinylCard imgPath={"https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000"} title={"titre"} text={"le dernier album de artiste 1"} price={"55$"} href={"/album"} onClick={() => {
+    //                         navigate("/product", { state: element })
+    //                     }} />
+    //                     // https://stackoverflow.com/questions/42173786/react-router-pass-data-when-navigating-programmatically
+    //                     array.push(vinyleCard)
+    //                 });
+
+    //                 setItems(array);
+    //             }
+    //             else console.log(res)
+    //         })
+    // });
+    const vinyl = [
+        {
+            id: 1,
+            name: "album 1",
+            id_artist: 1,
+            image: "https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000",
+            type: "rock",
+            price: 55.0,
+            songs: []
+        },
+        {
+            id: 2,
+            name: "album 2",
+            id_artist: 1,
+            image: "https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000",
+            type: "rock",
+            price: 55.0,
+            songs: []
+        },
+        {
+            id: 3,
+            name: "album 3",
+            id_artist: 1,
+            image: "https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000",
+            type: "rock",
+            price: 55.0,
+            songs: []
+        },
+        {
+            id: 4,
+            name: "album 4",
+            id_artist: 1,
+            image: "https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000",
+            type: "rock",
+            price: 55.0,
+            songs: []
+        },
+        {
+            id: 5,
+            name: "album 5",
+            id_artist: 1,
+            image: "https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000",
+            type: "rock",
+            price: 55.0,
+            songs: []
+        },
+        {
+            id: 6,
+            name: "album 6",
+            id_artist: 1,
+            image: "https://img.freepik.com/free-psd/vinyl-record-cover-with-orange-background-mockup_23-2149379034.jpg?w=2000",
+            type: "rock",
+            price: 55.0,
+            songs: []
+        }
+    ]
+    useEffect(() => {
+
+        const array: any[] = [];
+        vinyl.forEach((element: any) => {
+            console.log(element)
+            const vinyleCard = <VinylCard imgPath={element.image} title={element.name} text={"le dernier album de artiste 1"} price={element.price} onClick={() => {
+                navigate("/product", { state: element })
+            }} />
+            // https://stackoverflow.com/questions/42173786/react-router-pass-data-when-navigating-programmatically
+            array.push(vinyleCard)
+        });
+
+        setItems(array);
+
+    });
 
     const RenderNextButton = () => {
         return (
