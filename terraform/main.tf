@@ -35,7 +35,7 @@ resource "google_cloud_run_service" "backend" {
         spec{
             service_account_name = "terraform-whitehorse@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
             containers{
-                image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.15"
+                image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/whitehorse/backend:0.0.16"
                 env{
                     name="USER"
                     value_from{
