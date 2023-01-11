@@ -5,11 +5,7 @@ import hashlib
 # from src.models.artist import Artist, create_table_artist
 # from src.models.song import Song, create_table_song
 
-from typing import Optional
 from sqlmodel import create_engine, Session, select
-from google.cloud.sql.connector import Connector, IPTypes
-from decouple import config
-import pymysql
 import sqlalchemy
 import os
 from pydantic import BaseSettings
@@ -25,7 +21,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
 
-db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
+db_address = 'ceri-m1-ecommerce-2022:europe-west1:mysql-primary'  # e.g. 'project:region:instance'
 settings = Settings()
 # connection_name = 'ceri-m1-ecommerce-2022:europe-west1:mysql-primary'
 db_user = os.environ.get("DATABASE_USER")   # config('DATABASE_USER')  # e.g. 'my-db-user'
@@ -118,6 +114,7 @@ class Database:
         session.refresh(new_user)
         print("User added :", new_user)
         Database.create_cart(new_user, session)
+        return new_user
         
         
 
