@@ -24,36 +24,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
-# def connect_with_connector() -> sqlalchemy.engine.base.Engine:
-#     # Note: Saving credentials in environment variables is convenient, but not
-#     # secure - consider a more secure solution such as
-#     # Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-#     # keep secrets safe.
-#     db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
-
-#     db_user = os.environ.get("DATABASE_USER")   # config('DATABASE_USER')  # e.g. 'my-db-user'
-#     db_pass = os.environ.get("PASSWORD") # config('PASSWORD') # os.environ["PASSWORD"]  # e.g. 'my-db-password'
-#     db_name = os.environ.get("DATABASE_NAME") # config('DATABASE_NAME') # os.environ["DATABASE_NAME"]  # e.g. 'my-database'
-#     ip_type = IPTypes.PRIVATE if os.environ.get("PRIVATE_IP") else IPTypes.PUBLIC
-    
-#     connector = Connector(ip_type)
-
-#     def getconn() -> pymysql.connections.Connection:
-#         conn: pymysql.connections.Connection = connector.connect(
-#             db_address,
-#             "pymysql",
-#             user=db_user,
-#             password=db_pass,
-#             db=db_name,
-#         )
-#         return conn
-
-#     pool = sqlalchemy.create_engine(
-#         "mysql+pymysql://",
-#         creator=getconn,
-#         # ...
-#     )
-#     return pool
 
 db_address = os.environ.get("DATABASE_ADDRESS")  # e.g. 'project:region:instance'
 settings = Settings()
@@ -66,24 +36,21 @@ DATABASE_URL = sqlalchemy.engine.url.URL.create(
     username=db_user,
     password=db_pass,
     database=db_name,
+    # host="localhost", ## Need this to try the connection at the database in local.
+    # port=3306,        ## this two will be comment for the deployment.
     query={"unix_socket": "{}/{}".format("/cloudsql", db_address)},
 )
 # sqlite_file_name = "database.db"
 # sqlite_url = f"sqlite:///{sqlite_file_name}"
 engine = create_engine(DATABASE_URL)
+# engine = create_engine(sqlite_url, echo=True)
 class Database:
-    # sqlite_file_name = "db/database.db"
-    # sqlite_url = f"sqlite:///{sqlite_file_name}"
-    # database_engine = create_engine(sqlite_url, echo=True)
-    # def __init__(self):
 
     def create_all_tab():
         print('URL: ', DATABASE_URL)
         # print('Yes: ', connection_name)
         create_all_table(engine)
-        # create_table_album(engine)
-        # create_table_song(engine)
-        # create_table_artist(engine)
+
 
     def remove_all_tab():
         remove_table(engine)
@@ -142,43 +109,175 @@ class Database:
             #     print(song)
             return(result)
     
-    def insert_user(new_username, new_password, new_firstname):
-        new_user = User(username=new_username, password= hashlib.sha256(new_password.encode('utf-8')).hexdigest(), firstname=new_firstname)
+    def insert_user(username: str, password: str, image: str, firstname: str, is_admin: int):
+        new_user = User(username=username, password= hashlib.sha256(password.encode('utf-8')).hexdigest(), firstname=firstname, image=image, is_admin=is_admin)
         session = Session(engine)
         session.add(new_user)
+        print(new_user)
         session.commit()
         session.refresh(new_user)
+        print("User added :", new_user)
+        Database.create_cart(new_user, session)
+        
+        
 
     def connect_user(username, password):
-        resp = {'message': str, 'status': int}
+        resp = {'message': str, 'status': int, 'user': User}
         with Session(engine) as session:
             statement = select(User).where(User.username == username)
             result = session.exec(statement)
-            print(result)
+
+            print("test=",result)
             if(len(result.all()) == 0):
                 resp['message'] = "Nom d'utilisateur inexistant"
                 resp['status'] = 404
             else:
                 statement = select(User).where(User.username == username, User.password == hashlib.sha256(password.encode('utf-8')).hexdigest())
-                result = session.exec(statement)
-                print(result)
-                if(len(result.all()) == 0):
+                result = session.exec(statement).one_or_none()
+                if(result == None):
                     resp['message'] = "Mot de passe incorrect"
                     resp['status'] = 404
                 else:
-                    user = result.one()
+                    user = result
                     resp['message'] = "Bienvenue " + user.firstname
                     resp['status'] = 200
+                    resp['user'] = user
         return resp
 
-    def user_is_connected():
+    def modify_user_profil(user: User):
+        resp = {'message': str, 'status': int, 'new_user': User}
         with Session(engine) as session:
-            statement = select(User).where(User.is_connected == 1)
-            result = session.exec(statement).all()
-            if(len(result) == 0):
-                return False
+            statement = select(User).where(User.id == user.id)
+            user_finded = session.exec(statement).one_or_none()
+            if(user_finded == None):
+                resp['message'] = "Utilisateur non trouvé"
+                resp['status'] = 404
             else:
-                return True
+                print("user finded", user_finded)
+                user_finded.username = user.username
+                user_finded.image = user.image
+                session.add(user_finded)
+                session.commit()
+                session.refresh(user_finded)
+                resp['message'] = "Utilisateur modifier"
+                resp['status'] = 202
+                resp['user'] = user_finded
+        return resp
+    
+    def get_all_users():
+        with Session(engine) as session:
+            statement = select(User)
+            results = session.exec(statement).all()
+            for user in results:
+                print(user)
+            return(results)
+    
+    def create_cart(user: User, session: Session):
+        new_cart = Cart(user_id=user.id)
+        session.add(new_cart)
+        session.commit()
+        session.refresh(new_cart)
+        user.id_command_in_process = new_cart.id
+        session.commit()
+        session.refresh(user)
+        print("Cart added: at the user : ", user)
+
+    def validate_cart(user: User):
+        resp = {'message': str, 'status': int, 'user': User}
+        with Session(engine) as session:
+            statement_to_get_current_user = select(User).where(User.id == user)
+            current_user = session.exec(statement_to_get_current_user).one_or_none()
+            if(current_user == None):
+                resp['status'] = 404
+                return resp
+            statement = select(Cart).where(Cart.id == current_user.id_command_in_process)
+            command_in_process = session.exec(statement).one_or_none()
+            if(command_in_process == None):
+                resp['status'] = 402
+            else:
+                command_in_process.is_paid = 1
+                session.add(current_user)
+                Database.create_cart(current_user, session)
+                resp['message'] = "Paiement effectué"
+                resp['status'] = 202
+                resp['user'] = current_user
+            return(resp)
+
+    def create_product(cart: Cart, album: Album, session: Session):
+        new_product = Product(id_album=album.id, id_cart=cart.id, price=album.price)
+        session.add(new_product)
+        session.commit()
+        session.refresh(new_product)
+        print("new product", new_product)
+        cart.price += new_product.price
+        session.commit()
+        session.refresh(cart)
+        print("Product added at the cart : ", cart.products)
+        print("Price : ", cart.price)
+    
+    def add_product_to_the_user_cart(user: User, album: Album):
+        print()
+        resp = {'message': str, 'status': int, 'cart': Cart}
+        with Session(engine) as session:
+            statement_to_get_current_user = select(User).where(User.id == user)
+            current_user = session.exec(statement_to_get_current_user).one_or_none()
+            if(current_user == None):
+                resp['status'] = 404
+                return resp
+            statement = select(Cart).where(Cart.id == current_user.id_command_in_process)
+            command_in_process = session.exec(statement).one_or_none()
+            if(command_in_process == None):
+                resp['status'] = 402
+                return resp
+            statement = select(Album).where(Album.id == album)
+            album_for_product = session.exec(statement).one_or_none()
+            if(album_for_product == None):
+                resp['status'] = 402
+            else:
+                Database.create_product(command_in_process, album_for_product, session)
+                session.add(current_user)
+                session.refresh(current_user)
+                resp['message'] = "Produit ajouté au panier"
+                resp['status'] = 202
+                resp['cart'] = command_in_process
+            return(resp)
+    
+    def get_cart_from_user(user: int):
+        resp = {'message': str, 'status': int, 'cart': Cart, 'products': List[Product]}
+        with Session(engine) as session:
+            statement_to_get_current_user = select(User).where(User.id == user)
+            current_user = session.exec(statement_to_get_current_user).one_or_none()
+            if(current_user == None):
+                resp['status'] = 404
+                return resp
+            statement = select(Cart).where(Cart.id == current_user.id_command_in_process)
+            command_in_process = session.exec(statement).one_or_none()
+            if(command_in_process == None):
+                resp['status'] = 402
+                return resp
+            else:
+                products = command_in_process.products
+                resp['message'] = "Liste des produits du panier"
+                resp['status'] = 202
+                resp['cart'] = command_in_process
+                resp['products'] = products
+            return(resp)
+            
+    def remove_product_from_cart(product: int):
+        resp = {'message': str, 'status': int}
+        with Session(engine) as session:
+            statement = select(Product).where(Product.id == product)
+            product = session.exec(statement).one_or_none()
+            if(product == None):
+                resp['message'] = "Produit non trouvé"
+                resp['status'] = 404
+            else:
+                resp['message'] = "Produit supprimer du panier"
+                resp['status'] = 200
+                session.delete(product)
+                session.commit()
+        return(resp)
+
 # def main():
 #     Database.create_all_tab()
 

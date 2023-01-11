@@ -16,7 +16,7 @@ class Album(SQLModel, table=True):
     image: Optional[str] = None
     release_date:Optional[datetime] = None
     type: str
-    price: int
+    price: float
     
     songs: List["Song"]  = Relationship(back_populates="album")
 
@@ -31,15 +31,27 @@ class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     username: str
     password: str
-    is_connected: Optional[int] = Field(default=0, nullable=False)
+    is_admin: int = Field(default=0)
     image: Optional[str] = None
     firstname: str
+    id_command_in_process: Optional[int]
+    
+    commands: List["Cart"] = Relationship(back_populates="user")
+
+class Product(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    id_album: int = Field(default=None, foreign_key="album.id")
     id_cart: int = Field(default=None, foreign_key="cart.id")
+    cart: Optional["Cart"] = Relationship(back_populates="products")
+    price: float = Field(default=None, foreign_key="album.price")
 
 class Cart(SQLModel, table=True):
     id: Optional[int] = Field(nullable=False, primary_key=True)
-    price: int
-    
+    price: float = Field(default=0.0)
+    is_paid: int = Field(default=0)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    user: Optional["User"] = Relationship(back_populates="commands")
+    products: List["Product"] = Relationship(back_populates="cart")
 
 def remove_table(engine):
     SQLModel.metadata.drop_all(engine)
