@@ -116,10 +116,9 @@ const HomePage = () => {
         }
     ]
     useEffect(() => {
-
+        console.log("ok")
         const array: any[] = [];
         vinyl.forEach((element: any) => {
-            console.log(element)
             const vinyleCard = <VinylCard imgPath={element.image} title={element.name} text={"le dernier album de artiste 1"} price={element.price} onClick={() => {
                 navigate("/product", { state: element })
             }} />
@@ -129,7 +128,7 @@ const HomePage = () => {
 
         setItems(array);
 
-    });
+    }, []);
 
     const RenderNextButton = () => {
         return (
@@ -161,7 +160,7 @@ const HomePage = () => {
             <AliceCarousel
                 responsive={responsive}
                 mouseTracking
-                disableDotsControls
+
                 items={items}
                 paddingLeft={20}
                 paddingRight={20}
@@ -173,7 +172,7 @@ const HomePage = () => {
                     return <RenderNextButton />
                 }}
             />
-            <Typography
+            {/* <Typography
                 variant="h6"
                 sx={{ marginLeft: "40px", marginTop: "-10px" }}
                 onClick={() => {
@@ -283,7 +282,7 @@ const HomePage = () => {
                         </CardActionArea>
                     </Card>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
 
         </>

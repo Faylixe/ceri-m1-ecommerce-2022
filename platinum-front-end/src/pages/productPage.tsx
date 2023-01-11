@@ -15,6 +15,13 @@ const ProductPage = () => {
 
     const isConnected = true
 
+    const addToCart = (item: {}) => {
+
+        const cart = JSON.parse(localStorage.getItem('cart') || "[]") || [];
+        cart.push(item)
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
     return (
         <Grid container spacing={2} sx={{ justifyContent: "center", marginTop: "0px", marginBottom: "20px", marginLeft: "calc(80px - 8px)", width: "calc(100% - 160px)" }}>
             <Grid item xs={8} >
@@ -47,7 +54,8 @@ const ProductPage = () => {
                                     <Typography variant="h4" color="text.primary">
                                         {product.price} $
                                     </Typography>
-                                    <Button variant="contained" disabled={!isConnected} color="primary" sx={{ height: "50px", width: "50px" }}>
+                                    <Button variant="contained" disabled={!isConnected} color="primary" sx={{ height: "50px", width: "50px" }}
+                                        onClick={() => { addToCart(product) }}>
                                         <AddShoppingCartIcon />
                                     </Button>
                                 </Grid>
