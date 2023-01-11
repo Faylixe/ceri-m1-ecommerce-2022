@@ -16,6 +16,9 @@ export class ListeAlbumsService {
 
   getEverything() : Observable<any>{
     console.log("test service");
+  	const headers = new HttpHeaders()
+	    .set('Content-Type','application/json')
+	    .set('Access-Control-Allow-Origin','*');
 	  return this.http.get(this.backend,{withCredentials : true});
   }
 
@@ -23,7 +26,8 @@ export class ListeAlbumsService {
     var url=this.backend+"/"+nom_Artiste+"/"+ nom_Album;
     console.log("test service details" ,nom_Artiste,nom_Album);
     const headers = new HttpHeaders()
-	    .set('Content-Type', 'application/json');
+    .set('Content-Type','application/json')
+    .set('Access-Control-Allow-Origin','*');
 	  return this.http.get(url,{});
 
 
