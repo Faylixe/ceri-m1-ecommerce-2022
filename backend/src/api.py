@@ -117,9 +117,9 @@ def read_artists():
 
 #### Root for user ####
 @app.post("/create/user", tags=["User"], status_code=status.HTTP_201_CREATED)
-def create_user(user: User):
+def create_user(username: str, password: str, image: str, firstname: str, is_admin: int):
     '''Root to create an user'''
-    Database.insert_user(user)
+    user = Database.insert_user(username, password, image, firstname, is_admin)
     return({'message': user})
 
 @app.get("/update/user", tags=["User"], status_code=status.HTTP_202_ACCEPTED)

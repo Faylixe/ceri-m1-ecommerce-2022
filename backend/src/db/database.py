@@ -109,8 +109,8 @@ class Database:
             #     print(song)
             return(result)
     
-    def insert_user(new_user: User):
-        new_user = User(username=new_user.username, password= hashlib.sha256(new_user.password.encode('utf-8')).hexdigest(), firstname=new_user.firstname)
+    def insert_user(username: str, password: str, image: str, firstname: str, is_admin: int):
+        new_user = User(username=username, password= hashlib.sha256(password.encode('utf-8')).hexdigest(), firstname=firstname, image=image, is_admin=is_admin)
         session = Session(engine)
         session.add(new_user)
         print(new_user)
@@ -262,6 +262,7 @@ class Database:
                 resp['cart'] = command_in_process
                 resp['products'] = products
             return(resp)
+            
     def remove_product_from_cart(product: int):
         resp = {'message': str, 'status': int}
         with Session(engine) as session:
