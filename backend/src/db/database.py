@@ -240,7 +240,7 @@ class Database:
             return(resp)
     
     def get_cart_from_user(user: int):
-        resp = {'message': str, 'status': int, 'cart': Cart, 'products': List[Product]}
+        resp = {'message': str, 'status': int, 'cart': Cart, 'products': List[Album]}
         with Session(engine) as session:
             statement_to_get_current_user = select(User).where(User.id == user)
             current_user = session.exec(statement_to_get_current_user).one_or_none()
@@ -254,10 +254,15 @@ class Database:
                 return resp
             else:
                 products = command_in_process.products
+                albums = []
+                for product in products:
+                    statement = select(Album).where(Album.id == product.id_album)
+                    album = session.exec(statement).one_or_none()
+                    albums.append(album)
                 resp['message'] = "Liste des produits du panier"
                 resp['status'] = 202
                 resp['cart'] = command_in_process
-                resp['products'] = products
+                resp['products'] = albums
             return(resp)
             
     def remove_product_from_cart(product: int):
