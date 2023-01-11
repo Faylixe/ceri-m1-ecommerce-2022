@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../App';
+import { ShoppingBasket } from '@mui/icons-material';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -70,6 +71,17 @@ export default function SearchAppBar() {
     const navigate = useNavigate()
     const appContextValue = useContext(AppContext)
     const isConnected = appContextValue?.isConnected
+    const setIsConnected = appContextValue?.setIsConnected
+    const setUser = appContextValue?.setUser
+
+    const handleSignOut = () => {
+        console.log("here")
+        if (setUser && setIsConnected) {
+            setUser({})
+            setIsConnected(false)
+            localStorage.removeItem("cart")
+        }
+    }
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -107,7 +119,8 @@ export default function SearchAppBar() {
         >
             {isConnected ? <>
                 <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={() => { navigate("/command") }}>Commands</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
             </> : <MenuItem onClick={() => { navigate("/signin") }}>Sign in</MenuItem>}
         </Menu>
     );
@@ -177,10 +190,13 @@ export default function SearchAppBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                    <Typography variant="h5" sx={{ fontWeight: "bold" }} onClick={() => {
+                        navigate("/")
+                    }}>
                         Platinum Vinyls
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
+                    <ShoppingBasket onClick={() => { navigate("/cart") }} />
                     <Typography
                         variant="h6"
                         sx={{ marginLeft: "24px" }}

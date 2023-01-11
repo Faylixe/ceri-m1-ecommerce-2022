@@ -6,9 +6,12 @@ import {
   Link
 } from "react-router-dom";
 import SearchAppBar from './components/searchAppBar';
+import CartPage from './pages/cartPage';
+import CommandPage from './pages/commandPage';
 import HomePage from './pages/homePage';
 import ProductPage from './pages/productPage';
 import SigninPage from './pages/signinPage';
+import SignupPage from './pages/signupPage';
 
 interface AppContextType {
   user: {},
@@ -29,6 +32,7 @@ const AppContextProvider = ({ children }: any) => {
   //const [user, setUser] = useState<{}>({})
   const [isConnected, setIsConnected] = useState(false)
 
+  console.log(isConnected)
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -55,6 +59,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="product" element={<ProductPage />} />
           <Route path="signin" element={<SigninPage />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="command" element={<CommandPage />} />
         </Routes>
       </Router>
     </AppContextProvider>
