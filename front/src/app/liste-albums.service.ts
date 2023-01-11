@@ -16,21 +16,26 @@ export class ListeAlbumsService {
 
   getEverything() : Observable<any>{
     console.log("test service");
-  	const headers = new HttpHeaders()
-	    .set('Content-Type','application/json')
-	    .set('Access-Control-Allow-Origin','*');
-	  return this.http.get(this.backend,{withCredentials : true});
+    const options = {
+	    withCredentials : true,
+	    headers: new HttpHeaders({
+		    'Content-Type':'application/json',
+		    'Access-Control-Allow-Origin':'*'
+	    })}
+    return this.http.get(this.backend,options);
   }
 
   getMusicsByArtist(nom_Artiste:string,nom_Album:string): Observable<any> {
     var url=this.backend+"/"+nom_Artiste+"/"+ nom_Album;
     console.log("test service details" ,nom_Artiste,nom_Album);
-    const headers = new HttpHeaders()
-    .set('Content-Type','application/json')
-    .set('Access-Control-Allow-Origin','*');
-	  return this.http.get(url,{});
-
-
+	  
+    const options = {
+	    withCredentials : true,
+	    headers: new HttpHeaders({
+		    'Content-Type':'application/json',
+		    'Access-Control-Allow-Origin':'*'
+	    })}
+    return this.http.get(url,{},options);
   }
 
   addProduit(albumN: string,nomArt:string,price:string,img:string,q:number) {
