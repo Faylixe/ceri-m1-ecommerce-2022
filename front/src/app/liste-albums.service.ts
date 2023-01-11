@@ -35,7 +35,7 @@ export class ListeAlbumsService {
 		    'Content-Type':'application/json',
 		    'Access-Control-Allow-Origin':'*'
 	    })}
-    return this.http.get(url,{},options);
+    return this.http.get(url,options);
   }
 
   addProduit(albumN: string,nomArt:string,price:string,img:string,q:number) {
